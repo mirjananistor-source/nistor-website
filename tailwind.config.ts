@@ -1,25 +1,28 @@
-import { Navbar } from "@/components/navbar"
-import { Hero } from "@/components/hero"
-import { VideoSection } from "@/components/video-section"
-import { PainSection } from "@/components/pain-section"
-import { Methodology } from "@/components/methodology"
-import { ZaKoga } from "@/components/za-koga"
-import { MimaChat } from "@/components/mima-chat"
-import { Contact } from "@/components/contact"
-import { Footer } from "@/components/footer"
+import type { Config } from "tailwindcss"
 
-export default function Home() {
-  return (
-    <main>
-      <Navbar />
-      <Hero />
-      <VideoSection />
-      <PainSection />
-      <Methodology />
-      <ZaKoga />
-      <MimaChat />
-      <Contact />
-      <Footer />
-    </main>
-  )
+const config: Config = {
+  darkMode: ["class"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        navy: "#0D2137",
+        teal: "#0D7377",
+        "light-teal": "#7EC8C8",
+        gray: "#F7F8FA",
+      },
+      fontFamily: {
+        serif: ["Georgia", "serif"],
+        sans: ["Arial", "Helvetica", "sans-serif"],
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
 }
+
+export default config
