@@ -1,5 +1,4 @@
 import { Mail, ArrowUpRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { useLang } from "@/app/providers"
 
 const contacts = [
