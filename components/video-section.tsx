@@ -1,92 +1,79 @@
-const cards = [
-  {
-    emoji: "💡",
-    title: "Osnovali ste firmu zbog ideja, ne zbog operacije",
-    text: "Vase vreme i energija treba da idu na rast i nove prilike — ne na koordinaciju tima i pracenje zadataka.",
-  },
-  {
-    emoji: "📊",
-    title: "Posao raste, ali osecate da gubite pregled",
-    text: "Vise klijenata, vise zaposlenih — ali manje jasnoce sta se stvarno desava. Brojke postoje, ali ne govore nista.",
-  },
-  {
-    emoji: "⚡",
-    title: "Spremni ste da gradite sistem, ne samo da gasite pozare",
-    text: "Ne trazite jos jedan alat. Trazite nekoga ko ce da preuzme operativu i dovede stvari u red — jednom zauvek.",
-  },
-]
+"use client"
 
-export function ZaKoga() {
+import { useEffect } from "react"
+
+export function VideoSection() {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const video = document.getElementById('hero-video') as HTMLVideoElement | null
+      if (video) {
+        video.muted = false
+        video.play().catch(() => {
+          video.muted = true
+          video.play()
+        })
+      }
+    }, 3000)
+    
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
-    <section id="za-koga" className="bg-white" style={{ padding: '40px' }}>
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="text-center mb-8">
-          <p 
-            className="uppercase font-medium mb-3"
-            style={{ 
-              color: '#0D7377', 
-              fontSize: '10px',
-              letterSpacing: '1px'
-            }}
-          >
-            Za koga je NiStor?
-          </p>
-          <h2 
-            className="font-serif"
-            style={{ 
-              color: '#0D2137',
-              fontSize: '26px',
-              fontWeight: 400
-            }}
-          >
-            Pravi izbor za vlasnike koji zele da firma radi bez njih.
-          </h2>
-        </div>
+    <section style={{ backgroundColor: '#0D2137', padding: '0 40px 32px' }}>
+      {/* Framed Video */}
+      <div 
+        className="mx-auto"
+        style={{ 
+          maxWidth: '860px',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          border: '1px solid rgba(13,115,119,0.3)'
+        }}
+      >
+        <video 
+          id="hero-video"
+          controls
+          playsInline
+          style={{ 
+            width: '100%',
+            maxHeight: '480px',
+            objectFit: 'cover',
+            display: 'block'
+          }}
+        >
+          <source 
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Merceds%20vs.%20Fica-hQUyqOEpJuvTzT5pAuYfiNc5GDgM41.mp4" 
+            type="video/mp4" 
+          />
+          Your browser does not support the video tag.
+        </video>
+      </div>
 
-        {/* Cards Grid */}
-        <div className="grid md:grid-cols-3 gap-[14px]">
-          {cards.map((card, index) => (
-            <div
-              key={index}
-              className="rounded-[10px]"
-              style={{ 
-                backgroundColor: '#F7F8FA',
-                border: '0.5px solid #E8E8E8',
-                padding: '20px 16px'
-              }}
-            >
-              {/* Emoji */}
-              <div style={{ fontSize: '28px', marginBottom: '12px' }}>
-                {card.emoji}
-              </div>
-              
-              {/* Title */}
-              <h3 
-                className="font-sans mb-2"
-                style={{ 
-                  color: '#0D2137',
-                  fontSize: '14px',
-                  fontWeight: 500
-                }}
-              >
-                {card.title}
-              </h3>
-              
-              {/* Text */}
-              <p 
-                className="font-sans"
-                style={{ 
-                  color: '#888',
-                  fontSize: '12px',
-                  lineHeight: 1.6
-                }}
-              >
-                {card.text}
-              </p>
-            </div>
-          ))}
-        </div>
+      {/* Text Below Video */}
+      <div className="text-center" style={{ padding: '24px 0 32px' }}>
+        <p 
+          className="font-sans leading-relaxed"
+          style={{ 
+            color: 'rgba(255,255,255,0.7)', 
+            fontSize: '14px',
+            lineHeight: '1.7',
+            marginBottom: '20px'
+          }}
+        >
+          Mi menjamo motor dok Vi vozite.
+        </p>
+        <a 
+          href="#dijagnostika"
+          className="inline-block text-white font-medium transition-colors hover:opacity-90"
+          style={{ 
+            backgroundColor: '#0D7377', 
+            padding: '13px 28px',
+            borderRadius: '7px',
+            fontSize: '14px'
+          }}
+        >
+          Zakazite besplatnu dijagnostiku
+        </a>
       </div>
     </section>
   )
