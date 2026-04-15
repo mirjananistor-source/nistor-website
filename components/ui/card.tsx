@@ -1,80 +1,92 @@
-"use client"
+import * as React from 'react'
 
-import { useEffect } from "react"
+import { cn } from '@/lib/utils'
 
-export function VideoSection() {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const video = document.getElementById('hero-video') as HTMLVideoElement | null
-      if (video) {
-        video.muted = false
-        video.play().catch(() => {
-          video.muted = true
-          video.play()
-        })
-      }
-    }, 3000)
-    
-    return () => clearTimeout(timer)
-  }, [])
-
+function Card({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <section style={{ backgroundColor: '#0D2137', padding: '0 40px 32px' }}>
-      {/* Framed Video */}
-      <div 
-        className="mx-auto"
-        style={{ 
-          maxWidth: '860px',
-          borderRadius: '12px',
-          overflow: 'hidden',
-          border: '1px solid rgba(13,115,119,0.3)'
-        }}
-      >
-        <video 
-          id="hero-video"
-          controls
-          playsInline
-          style={{ 
-            width: '100%',
-            maxHeight: '480px',
-            objectFit: 'cover',
-            display: 'block'
-          }}
-        >
-          <source 
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Merceds%20vs.%20Fica-hQUyqOEpJuvTzT5pAuYfiNc5GDgM41.mp4" 
-            type="video/mp4" 
-          />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-
-      {/* Text Below Video */}
-      <div className="text-center" style={{ padding: '24px 0 32px' }}>
-        <p 
-          className="font-sans leading-relaxed"
-          style={{ 
-            color: 'rgba(255,255,255,0.7)', 
-            fontSize: '14px',
-            lineHeight: '1.7',
-            marginBottom: '20px'
-          }}
-        >
-          Mi menjamo motor dok Vi vozite.
-        </p>
-        <a 
-          href="#dijagnostika"
-          className="inline-block text-white font-medium transition-colors hover:opacity-90"
-          style={{ 
-            backgroundColor: '#0D7377', 
-            padding: '13px 28px',
-            borderRadius: '7px',
-            fontSize: '14px'
-          }}
-        >
-          Zakazite besplatnu dijagnostiku
-        </a>
-      </div>
-    </section>
+    <div
+      data-slot="card"
+      className={cn(
+        'bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm',
+        className,
+      )}
+      {...props}
+    />
   )
+}
+
+function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="card-header"
+      className={cn(
+        '@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6',
+        className,
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="card-title"
+      className={cn('leading-none font-semibold', className)}
+      {...props}
+    />
+  )
+}
+
+function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="card-description"
+      className={cn('text-muted-foreground text-sm', className)}
+      {...props}
+    />
+  )
+}
+
+function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="card-action"
+      className={cn(
+        'col-start-2 row-span-2 row-start-1 self-start justify-self-end',
+        className,
+      )}
+      {...props}
+    />
+  )
+}
+
+function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="card-content"
+      className={cn('px-6', className)}
+      {...props}
+    />
+  )
+}
+
+function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="card-footer"
+      className={cn('flex items-center px-6 [.border-t]:pt-6', className)}
+      {...props}
+    />
+  )
+}
+
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardAction,
+  CardDescription,
+  CardContent,
 }
