@@ -1,0 +1,25 @@
+import { Navbar } from "@/components/navbar"
+import { Hero } from "@/components/hero"
+import { VideoSection } from "@/components/video-section"
+import { PainSection } from "@/components/pain-section"
+import { Methodology } from "@/components/methodology"
+import { ZaKoga } from "@/components/za-koga"
+import { MimaChat } from "@/components/mima-chat"
+import { Contact } from "@/components/contact"
+import { Footer } from "@/components/footer"
+
+export default function Home() {
+  return (
+    <main>
+      <Navbar />
+      <Hero />
+      <VideoSection />
+      <PainSection />
+      <Methodology />
+      <ZaKoga />
+      <MimaChat />
+      <Contact />
+      <Footer />
+    </main>
+  )
+}
