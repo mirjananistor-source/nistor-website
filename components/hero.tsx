@@ -25,7 +25,7 @@ export function Hero() {
               fontWeight: 400
             }}
           >
-            Vas proizvod zasluzuje operativu koja ga prati
+            Vaš proizvod zaslužuje operativu koja ga prati — svaki dan
           </h1>
         </div>
       </div>
