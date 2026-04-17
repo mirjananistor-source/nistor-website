@@ -1,7 +1,7 @@
 "use client"
 
-import { Navbar } from "@/components/navbar"
-import { Hero } from "@/components/hero"
+import { Navbar } from "./navbar"
+import { Hero } from "./hero"
 
 export default function HomeClient() {
   return (
