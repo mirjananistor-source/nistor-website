@@ -1,21 +1,44 @@
-import * as React from 'react'
+"use client"
 
-import { cn } from '@/lib/utils'
+import * as React from "react"
 
-function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
-  return (
-    <input
-      type={type}
-      data-slot="input"
-      className={cn(
-        'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-        'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
-        'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
-        className,
-      )}
-      {...props}
-    />
-  )
+export type Toast = {
+  id: string
+  title?: React.ReactNode
+  description?: React.ReactNode
+  action?: React.ReactNode
+  variant?: "default" | "destructive"
 }
 
-export { Input }
+type ToastState = Toast[]
+
+const listeners: Array<(state: ToastState) => void> = []
+let memoryState: ToastState = []
+
+function emit(state: ToastState) {
+  memoryState = state
+  listeners.forEach((l) => l(state))
+}
+
+export function useToast() {
+  const [toasts, setToasts] = React.useState<ToastState>(memoryState)
+
+  React.useEffect(() => {
+    listeners.push(setToasts)
+    return () => {
+      const idx = listeners.indexOf(setToasts)
+      if (idx > -1) listeners.splice(idx, 1)
+    }
+  }, [])
+
+  return {
+    toasts,
+    toast: (toast: Omit<Toast, "id">) => {
+      const id = crypto.randomUUID()
+      emit([{ id, ...toast }, ...memoryState])
+    },
+    dismiss: (id?: string) => {
+      emit(id ? memoryState.filter((t) => t.id !== id) : [])
+    },
+  }
+}
