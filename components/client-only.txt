@@ -1,0 +1,8 @@
+"use client"
+
+import { Toaster } from "@/components/ui/toaster"
+// ako imaš sidebar/cmdk/resizable sa v0 — dodaj ovde
+
+export default function ClientOnly() {
+  return <Toaster />
+}
