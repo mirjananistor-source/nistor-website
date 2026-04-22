@@ -2,147 +2,151 @@
 
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { useLang } from "@/app/providers"
+
+const navLinks = {
+  SR: [
+    { href: "#metodologija", label: "Metodologija" },
+    { href: "#mima", label: "MIMA" },
+    { href: "#za-koga", label: "Za koga" },
+    { href: "#kontakt", label: "Kontakt" },
+  ],
+  EN: [
+    { href: "#metodologija", label: "Methodology" },
+    { href: "#mima", label: "MIMA" },
+    { href: "#za-koga", label: "For whom" },
+    { href: "#kontakt", label: "Contact" },
+  ],
+}
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const { lang, setLang } = useLang()
-
-  const navLinks = lang === "SR" 
-    ? [
-        { href: "#metodologija", label: "Metodologija" },
-        { href: "#mima", label: "MIMA" },
-        { href: "#za-koga", label: "Za koga" },
-        { href: "#kontakt", label: "Kontakt" },
-      ]
-    : [
-        { href: "#metodologija", label: "Methodology" },
-        { href: "#mima", label: "MIMA" },
-        { href: "#za-koga", label: "For whom" },
-        { href: "#kontakt", label: "Contact" },
-      ]
+  const links = navLinks[lang]
+  const ctaLabel = lang === "SR" ? "Pokreni dijagnostiku" : "Start diagnostics"
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50" style={{ backgroundColor: '#0D2137' }}>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-navy">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between" style={{ height: '72px' }}>
-          <a href="#" className="flex-shrink-0">
+        <div className="flex items-center justify-between h-16 lg:h-20">
+          {/* Logo */}
+          <a href="#" className="flex-shrink-0 flex items-center">
             <img 
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/nistor_logo_xl-zbxpcfuWG3WmrLy0zZxfAjm5tfRvSw.png"
-              alt="NiStor"
-              style={{ height: '72px', width: 'auto' }}
+              alt="NiStor - Structure. Optimize. Grow Smartly."
+              className="h-[72px] w-auto"
             />
           </a>
 
+          {/* Desktop Navigation - Center */}
           <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
+            {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                style={{ color: 'rgba(255,255,255,0.75)', fontSize: '13px', textDecoration: 'none' }}
+                className="text-white/80 hover:text-light-teal transition-colors text-sm font-medium"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          <div className="hidden lg:flex items-center gap-3">
-            <div style={{ display: 'flex', gap: '2px' }}>
-              {(["SR", "EN"] as const).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setLang(l)}
-                  style={{
-                    background: lang === l ? '#0D7377' : 'transparent',
-                    color: lang === l ? '#fff' : 'rgba(255,255,255,0.4)',
-                    border: 'none',
-                    borderRadius: '4px',
-                    padding: '4px 10px',
-                    fontSize: '12px',
-                    cursor: 'pointer',
-                    fontWeight: lang === l ? '500' : '400',
-                  }}
-                >
-                  {l}
-                </button>
-              ))}
+          {/* Desktop Right Side */}
+          <div className="hidden lg:flex items-center gap-4">
+            {/* Language Toggle */}
+            <div className="flex items-center bg-white/10 rounded-full p-1">
+              <button
+                onClick={() => setLang("SR")}
+                className={`px-3 py-1 text-sm font-medium rounded-full transition-all ${
+                  lang === "SR"
+                    ? "bg-teal text-white"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                SR
+              </button>
+              <button
+                onClick={() => setLang("EN")}
+                className={`px-3 py-1 text-sm font-medium rounded-full transition-all ${
+                  lang === "EN"
+                    ? "bg-teal text-white"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                EN
+              </button>
             </div>
-            <a
-              href="#dijagnostika"
-              style={{
-                background: '#0D7377',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '6px',
-                padding: '8px 18px',
-                fontSize: '12px',
-                fontWeight: '700',
-                textDecoration: 'none',
-                cursor: 'pointer',
-              }}
+
+            {/* CTA Button */}
+            <Button
+              asChild
+              className="bg-teal hover:bg-teal/90 text-white font-medium px-6"
             >
-              {lang === "SR" ? "Pokreni dijagnostiku" : "Start diagnostics"}
-            </a>
+              <a href="#mima" onClick={() => setTimeout(() => window.dispatchEvent(new CustomEvent("mima:start")), 600)}>{ctaLabel}</a>
+            </Button>
           </div>
 
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2"
-            style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer' }}
+            className="lg:hidden p-2 text-white"
+            aria-label="Toggle menu"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
+      {/* Mobile Menu */}
       {isOpen && (
-        <div style={{ backgroundColor: '#0D2137', borderTop: '0.5px solid rgba(255,255,255,0.1)', padding: '16px' }}>
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              style={{ display: 'block', color: 'rgba(255,255,255,0.8)', padding: '10px 0', textDecoration: 'none', fontSize: '16px' }}
-            >
-              {link.label}
-            </a>
-          ))}
-          <div style={{ display: 'flex', gap: '4px', marginTop: '12px' }}>
-            {(["SR", "EN"] as const).map((l) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                style={{
-                  background: lang === l ? '#0D7377' : 'transparent',
-                  color: lang === l ? '#fff' : 'rgba(255,255,255,0.4)',
-                  border: 'none',
-                  borderRadius: '4px',
-                  padding: '4px 10px',
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                }}
+        <div className="lg:hidden bg-navy border-t border-white/10">
+          <div className="px-4 py-4 space-y-4">
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className="block text-white/80 hover:text-light-teal transition-colors text-base font-medium py-2"
               >
-                {l}
-              </button>
+                {link.label}
+              </a>
             ))}
+            
+            {/* Mobile Language Toggle */}
+            <div className="flex items-center gap-2 py-2">
+              <span className="text-white/60 text-sm">Jezik:</span>
+              <div className="flex items-center bg-white/10 rounded-full p-1">
+                <button
+                  onClick={() => setLang("SR")}
+                  className={`px-3 py-1 text-sm font-medium rounded-full transition-all ${
+                    lang === "SR"
+                      ? "bg-teal text-white"
+                      : "text-white/70 hover:text-white"
+                  }`}
+                >
+                  SR
+                </button>
+                <button
+                  onClick={() => setLang("EN")}
+                  className={`px-3 py-1 text-sm font-medium rounded-full transition-all ${
+                    lang === "EN"
+                      ? "bg-teal text-white"
+                      : "text-white/70 hover:text-white"
+                  }`}
+                >
+                  EN
+                </button>
+              </div>
+            </div>
+
+            <Button
+              asChild
+              className="w-full bg-teal hover:bg-teal/90 text-white font-medium"
+            >
+              <a href="#mima" onClick={() => { setIsOpen(false); setTimeout(() => window.dispatchEvent(new CustomEvent("mima:start")), 600) }}>{ctaLabel}</a>
+            </Button>
           </div>
-          <a
-            href="#dijagnostika"
-            onClick={() => setIsOpen(false)}
-            style={{
-              display: 'block',
-              background: '#0D7377',
-              color: '#fff',
-              borderRadius: '6px',
-              padding: '10px 18px',
-              fontSize: '13px',
-              textDecoration: 'none',
-              textAlign: 'center',
-              marginTop: '12px',
-            }}
-          >
-            {lang === "SR" ? "Pokreni dijagnostiku" : "Start diagnostics"}
-          </a>
         </div>
       )}
     </nav>

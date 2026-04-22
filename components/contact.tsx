@@ -1,3 +1,4 @@
+"use client"
 import { Mail, ArrowUpRight } from "lucide-react"
 import { useLang } from "@/app/providers"
 
@@ -11,7 +12,7 @@ const contacts = [
   {
     label: { SR: "AI COO · MIMA", EN: "AI COO · MIMA" },
     email: "mima@nistor.rs",
-    sub: { SR: "Direktno MIMI", EN: "Directly to MIMA" },
+    sub: { SR: "Direktno MIMI", EN: "Reach MIMA directly" },
     hasTealBorder: true,
   },
 ]
@@ -19,30 +20,16 @@ const contacts = [
 export function Contact() {
   const { lang } = useLang()
   return (
-    <section id="kontakt" className="bg-white" style={{ padding: '40px 0' }}>
+    <section id="kontakt" className="bg-white" style={{ padding: '60px 0' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <p className="text-teal font-medium text-sm uppercase tracking-wider mb-3">
-            {lang === "SR" ? "Kontakt" : "Contact"}
-          </p>
-          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-navy mb-4 text-balance">
-            {lang === "SR" ? "Razgovarajmo." : "Let's talk."}
-          </h2>
-          <p className="text-muted-foreground text-base leading-relaxed">
-            {lang === "SR" 
-              ? "Imate pitanje ili ste već spremni za Skener? Dostupni smo." 
-              : "Have a question or ready for the Scanner? We're available."}
-          </p>
-        </div>
-
         <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {contacts.map((contact, index) => (
-            <a
+            
               key={index}
               href={`mailto:${contact.email}`}
               className={`group bg-gray rounded-2xl p-6 border-2 hover:shadow-xl transition-all duration-300 ${
-                contact.hasTealBorder 
-                  ? "border-teal" 
+                contact.hasTealBorder
+                  ? "border-teal"
                   : "border-transparent hover:border-teal/30"
               }`}
             >
